@@ -10,7 +10,7 @@ TEMPSRCDIR 	  = doc-src
 SOURCEBRANCH  = master
 BUILDBRANCH  = build-doc
 HTMLBRANCH    = gh-pages
-REMOTEHTMLDIR    = html
+REMOTEHTMLDIR    = .
 
 update: prune
 	git checkout $(HTMLBRANCH);\
