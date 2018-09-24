@@ -30,8 +30,8 @@ update: prune
 	git commit -m "rebuilt docs"; \
 	git push origin $(HTMLBRANCH); \
 	
-	git checkout master
 	git branch -D $(BUILDBRANCH); \
+	git checkout master
 	
 prune: clean
 	git checkout $(HTMLBRANCH);\
