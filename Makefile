@@ -6,7 +6,30 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
+TEMPSRCDIR 	  = doc-src
+SOURCEBRANCH  = master
+HTMLBRANCH    = gh-pages
 
+
+update: prune
+	git checkout $(HTMLBRANCH);\
+	echo "Fetch doc src files from remote";\
+	mkdir -p $(TEMPSRCDIR)/$(SOURCEBRANCH);\
+	git worktree add -b $(SOURCEBRANCH) $(TEMPSRCDIR)/master origin/$(SOURCEBRANCH);\
+	
+##	(cd $(TEMPSRCDIR)/$(SOURCEBRANCH); \
+##	$(SPHINXBUILD) $(SPHINXOPTS) -b html . ../../html/
+	
+##	rm -rf $(TEMPSRCDIR); \
+	
+##	git add . ; \
+##	git commit -m "rebuilt docs"; \
+#	git push origin $(HTMLBRANCH); \
+	
+prune: clean
+	git checkout $(HTMLBRANCH);\
+	git worktree prune;\
+	
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
