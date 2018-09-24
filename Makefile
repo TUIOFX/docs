@@ -8,23 +8,29 @@ SOURCEDIR     = .
 BUILDDIR      = _build
 TEMPSRCDIR 	  = doc-src
 SOURCEBRANCH  = master
+BUILDBRANCH  = build-doc
 HTMLBRANCH    = gh-pages
-
+REMOTEHTMLDIR    = html
 
 update: prune
 	git checkout $(HTMLBRANCH);\
 	echo "Fetch doc src files from remote";\
 	mkdir -p $(TEMPSRCDIR)/$(SOURCEBRANCH);\
-	git worktree add -b $(SOURCEBRANCH) $(TEMPSRCDIR)/master origin/$(SOURCEBRANCH);\
+	git worktree add -b $(BUILDBRANCH) $(TEMPSRCDIR)/$(SOURCEBRANCH) origin/$(SOURCEBRANCH);\
 	
-##	(cd $(TEMPSRCDIR)/$(SOURCEBRANCH); \
-##	$(SPHINXBUILD) $(SPHINXOPTS) -b html . ../../html/
+	cd $(TEMPSRCDIR)/$(SOURCEBRANCH); \
+	$(SPHINXBUILD) $(SPHINXOPTS) -b html . ../../$(REMOTEHTMLDIR)/
 	
-##	rm -rf $(TEMPSRCDIR); \
+	# Remove worktree
+	git cd ../../
+	rm -rf ./$(TEMPSRCDIR); \
+	git worktree prune;\
 	
-##	git add . ; \
-##	git commit -m "rebuilt docs"; \
-#	git push origin $(HTMLBRANCH); \
+	git add $(REMOTEHTMLDIR)/ ; \
+	git commit -m "rebuilt docs"; \
+	git push origin $(HTMLBRANCH); \
+	
+	git checkout master
 	
 prune: clean
 	git checkout $(HTMLBRANCH);\
