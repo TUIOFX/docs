@@ -31,10 +31,12 @@ update: prune
 	git push origin $(HTMLBRANCH); \
 	
 	git checkout master
+	git branch -D $(BUILDBRANCH); \
 	
 prune: clean
 	git checkout $(HTMLBRANCH);\
 	git worktree prune;\
+	git branch -D $(BUILDBRANCH); \
 	
 # Put it first so that "make" without argument is like "make help".
 help:
