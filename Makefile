@@ -13,7 +13,6 @@ HTMLBRANCH    = gh-pages
 REMOTEHTMLDIR    = .
 
 update: prune
-	git checkout $(HTMLBRANCH);\
 	echo "Fetch doc src files from remote";\
 	mkdir -p $(TEMPSRCDIR)/$(SOURCEBRANCH);\
 	git worktree add -b $(BUILDBRANCH) $(TEMPSRCDIR)/$(SOURCEBRANCH) origin/$(SOURCEBRANCH);\
@@ -22,7 +21,7 @@ update: prune
 	$(SPHINXBUILD) $(SPHINXOPTS) -b html . ../../$(REMOTEHTMLDIR)/
 	
 	# Remove worktree
-	git cd ../../
+	cd ../../
 	rm -rf ./$(TEMPSRCDIR); \
 	git worktree prune;\
 	
@@ -35,6 +34,7 @@ update: prune
 	
 prune: clean
 	git checkout $(HTMLBRANCH);\
+	# TODO check if the branch exist first
 	git branch -D $(BUILDBRANCH); \
 	git worktree prune;\
 	
