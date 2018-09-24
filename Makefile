@@ -30,7 +30,7 @@ update: prune
 	git push origin $(HTMLBRANCH); \
 	
 	git branch -D $(BUILDBRANCH); \
-	git checkout master
+	git checkout  $(HTMLBRANCH);
 	
 prune: clean
 	git checkout $(HTMLBRANCH);\
