@@ -35,8 +35,8 @@ update: prune
 	
 prune: clean
 	git checkout $(HTMLBRANCH);\
-	git worktree prune;\
 	git branch -D $(BUILDBRANCH); \
+	git worktree prune;\
 	
 # Put it first so that "make" without argument is like "make help".
 help:
